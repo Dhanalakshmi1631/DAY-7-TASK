@@ -1,0 +1,118 @@
+DAY-7-TASK
+
+//html
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rest Countries API using HTML, CSS & JavaScript</title>
+    <!-- link css file here -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Rest Countries API using HTML, CSS & JavaScript</h1>
+    <!-- load countries here using js -->
+    <div class="countries" id="countries">
+
+    </div>
+
+    <!-- link script tags here -->
+    <script src="js/restapi.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+// style.css
+
+
+body{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+h1{
+    /* width: 100%; */
+    /* removed horizontal scroll bar */
+    margin: 0 auto;
+    background: #000;
+    color: white;
+    text-align: center;
+    padding: 15px;
+}
+
+.countries{
+    max-width: 1240px;
+    margin: 20px auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+.country-div{
+    background: #c5e7f5;
+    border: 1px solid burlywood;
+    padding: 15px;
+}
+img{
+    width: 100%;
+    height: 150px;
+}
+
+/* now do styles as much as you want */
+/* add media query for responsive */
+@media screen and (max-width: 576px){
+    .countries{
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+
+
+
+
+
+//js
+
+
+
+
+// this is an arrow function
+const loadCountryAPI = () =>{
+    // fetch url of rest country from website
+    fetch('https://restcountries.com/v3.1/all')
+    .then(res => res.json())
+    .then(data => displayCountries(data))
+}
+
+// displaying all countries
+const displayCountries = countries =>{
+    // console.log(countries);
+    const countriesHTML = countries.map(country => getCountry(country));
+    // displaying div to html
+    const container = document.getElementById('countries');
+    container.innerHTML = countriesHTML.join(' ');
+}
+
+// get data and set it to html
+const getCountry = (country) =>{
+    console.log(country)
+    return `
+        <div class="country-div">
+        <img src="${country.flags.png}">
+        <h2>${country.name.common}</h2>
+        <hr>
+        <h4>Population: ${country.population}</h4>
+        <h4>Regoin: ${country.region}</h4>
+        <h4>Capital: ${country.capital}</h4>
+        </div>
+    `
+}
+// call the funtion to get output in console
+loadCountryAPI()
